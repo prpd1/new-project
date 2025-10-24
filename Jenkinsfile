@@ -36,5 +36,18 @@ pipeline {
         }
     }
 
+        stage('Praveena - Deploy to Kubernetes') {
+            steps {
+                echo "Deploying to Kubernetes..."
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                    sh '''
+                        export KUBECONFIG=$KUBECONFIG_FILE
+                        kubectl apply -f ${KUBE_DEPLOYMENT_FILE}
+                        kubectl rollout status deployment/simple-python-app
+                    '''
+                }
+            }
+        }
+
 
 }

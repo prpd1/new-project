@@ -17,4 +17,5 @@ spec:
         image: qwerty703/simple-python-app:latest
         ports:
         - containerPort: 5000
-      
+      imagePullSecrets:
+      - name: secret
