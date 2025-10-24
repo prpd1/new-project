@@ -5,6 +5,8 @@ pipeline {
         DOCKERHUB_USER = "qwerty703"
         IMAGE_NAME = "${DOCKERHUB_USER}/simple-python-app"
         IMAGE_TAG  = "latest"
+        KUBE_DEPLOYMENT_FILE = "deployment.yaml"
+         DOCKER_SECRET_FILE = "secret.yaml"
     }
 
     stages {
@@ -35,6 +37,18 @@ pipeline {
             }
         }
     }
+        stage('Praveena - Apply Docker Secret') {
+            steps {
+                echo "Creating Docker pull secret in Kubernetes..."
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                    sh '''
+                        export KUBECONFIG=$KUBECONFIG_FILE
+                        kubectl apply -f ${DOCKER_SECRET_FILE}
+                    '''
+                }
+            }
+        }
+
 
         stage('Praveena - Deploy to Kubernetes') {
             steps {
