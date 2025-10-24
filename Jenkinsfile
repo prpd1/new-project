@@ -36,7 +36,7 @@ pipeline {
                 '''
             }
         }
-    }
+    
         stage('Praveena - Apply Docker Secret') {
             steps {
                 echo "Creating Docker pull secret in Kubernetes..."
@@ -62,6 +62,6 @@ pipeline {
                 }
             }
         }
-
+    }
 
 }
